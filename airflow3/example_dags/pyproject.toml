@@ -1,0 +1,7 @@
+[project]
+name = "example-dags"
+version = "0.1.0"
+description = "example dags for airflow3"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["apache-airflow>=3"]
