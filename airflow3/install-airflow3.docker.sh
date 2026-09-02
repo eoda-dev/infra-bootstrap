@@ -11,4 +11,4 @@ echo "AIRFLOW_UID=$(id -u)" > .env
 sed -i "s/AIRFLOW__CORE__LOAD_EXAMPLES: '.*'/AIRFLOW__CORE__LOAD_EXAMPLES: '$airflow_load_examples'/" docker-compose.yaml
 # docker compose run airflow-cli airflow config list
 docker compose up airflow-init
-# docker compose up -d
+docker compose up -d
