@@ -1,6 +1,6 @@
 #!/bin/sh
 airflow_folder=${AIRFLOW_FOLDER:-airflow3-docker}
-echo $airflow_folder
+echo "installation folder: $airflow_folder"
 airflow_load_examples=${AIRFLOW_LOAD_EXAMPLES:-false}
 echo "airflow_load_examples: $airflow_load_examples"
 
