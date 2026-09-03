@@ -1,7 +1,28 @@
 # rlang_k8s
 
+## Setup
+
+Create the volume, install the R packages into it, then start the R pod that mounts it:
+
+```bash
+kubectl apply -f storage.yml
+kubectl apply -f install-r-packages-job.yml
+kubectl wait --for=condition=complete job/install-r-packages --timeout=300s
+kubectl apply -f r-base-pod.yml
+```
+
+`install-r-packages-job.yml` installs its packages (`dplyr`, `ggplot2`, `tidyr`) into `/data` on the shared PVC, and `r-base-pod.yml` sets `R_LIBS_USER=/data` so R picks them up from the same volume.
+
+Connect to R in the pod and use the installed packages directly:
+
 ```bash
 kubectl exec -it r-base-pod -- R
+```
+
+```r
+library(dplyr)
+library(ggplot2)
+library(tidyr)
 ```
 
 ## RStudio
