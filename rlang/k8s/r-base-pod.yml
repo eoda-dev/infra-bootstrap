@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: r-base-pod
+spec:
+  containers:
+    - name: r-base
+      image: rocker/r-base
+      command: ["sleep", "infinity"]
+      env:
+        - name: R_LIBS_USER
+          value: /data
+      volumeMounts:
+        - name: hostpath-vol
+          mountPath: /data
+  volumes:
+    - name: hostpath-vol
+      persistentVolumeClaim:
+        claimName: my-hostpath-pvc

@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: install-r-packages
+spec:
+  template:
+    spec:
+      containers:
+        - name: install-packages
+          image: rocker/r-base
+          command:
+            - Rscript
+            - -e
+            - |
+              install.packages(
+                c("dplyr", "ggplot2", "tidyr"),
+                lib = "/data",
+                repos = "https://cloud.r-project.org"
+              )
+          volumeMounts:
+            - name: hostpath-vol
+              mountPath: /data
+      restartPolicy: Never
+      volumes:
+        - name: hostpath-vol
+          persistentVolumeClaim:
+            claimName: my-hostpath-pvc
+  backoffLimit: 2
