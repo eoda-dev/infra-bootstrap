@@ -1,17 +1,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: r-studio-pod
+  name: r-studio-pod-noauth
 spec:
   containers:
     - name: r-studio
       image: rocker/rstudio
       env:
-        - name: PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: rstudio-auth
-              key: password
+        - name: DISABLE_AUTH
+          value: "true"
         - name: R_LIBS_USER
           value: /data
       ports:
