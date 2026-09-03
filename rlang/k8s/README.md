@@ -2,7 +2,19 @@
 
 ## Setup
 
-Create the volume, install the R packages into it, then start the R pod that mounts it:
+Run [install-rlang.sh](install-rlang.sh) to apply the manifests straight from GitHub `main`:
+
+```bash
+sh install-rlang.sh
+```
+
+Or fetch and run it directly via curl:
+
+```bash
+curl -Lf https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/rlang/k8s/install-rlang.sh | sh
+```
+
+Or apply the manifests manually. Create the volume, install the R packages into it, then start the R pod that mounts it:
 
 ```bash
 kubectl apply -f storage.yml
