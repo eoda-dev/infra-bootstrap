@@ -36,7 +36,7 @@ if [[ ${#BOOTSTRAP_PASSWORD} -lt 12 ]]; then
   exit 1
 fi
 
-K3S_CHANNEL="${K3S_CHANNEL:-v1.31}"
+K3S_CHANNEL="${K3S_CHANNEL:-v1.34}"
 RANCHER_REPO="${RANCHER_REPO:-rancher-stable}"
 HOSTNAME_FQDN="rancher.${NODE_IP}.sslip.io"
 
