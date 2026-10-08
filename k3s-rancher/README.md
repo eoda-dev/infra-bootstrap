@@ -6,7 +6,7 @@
 sudo ./install-k3s-rancher.sh <NODE_IP> <BOOTSTRAP_PASSWORD>
 ```
 
-## Enable Gatway-API
+## Enable Gateway-API
 
 See also [https://docs.k3s.io/networking/networking-services#gateway-api](https://docs.k3s.io/networking/networking-services#gateway-api)
 
