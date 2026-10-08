@@ -6,6 +6,12 @@
 sudo ./install-k3s-rancher.sh <NODE_IP> <BOOTSTRAP_PASSWORD>
 
 curl -sfL https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/k3s-rancher/install-k3s-rancher-posix.sh | sudo sh -s <NODE_IP> <BOOTSTRAP_PASSWORD>
+
+
+mkdir -p ~/.kube
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo chown $USER ~/.kube/config
+export KUBECONFIG=~/.kube/config
 ```
 
 ## Enable Gateway-API
