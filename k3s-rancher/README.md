@@ -2,7 +2,9 @@
 
 ## Setup
 
+```bash
 sudo ./install-k3s-rancher.sh <NODE_IP> <BOOTSTRAP_PASSWORD>
+```
 
 ## Enable Gatway-API
 
