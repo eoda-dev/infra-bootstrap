@@ -1,32 +1,35 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # Installs Gitea and Argo CD on an existing k3s cluster (Traefik ingress, sslip.io hostnames).
+# POSIX sh version: no bash-only features (no [[ ]], =~, echo -e, pipefail).
 #
-# Usage:   ./install-argocd-gitea.sh [NODE_IP] [GITEA_ADMIN_PASSWORD]
+# Usage:   ./install-argocd-gitea-posix.sh [NODE_IP] [GITEA_ADMIN_PASSWORD]
 # Or:      export NODE_IP=192.168.1.50 GITEA_ADMIN_PASSWORD='ChangeMe-12345'
-#          ./install-argocd-gitea.sh
+#          ./install-argocd-gitea-posix.sh
+# Or:      curl -fsSL <url> | sh -s -- 192.168.1.50 'ChangeMe-12345'
 #
 # Arguments take precedence over the env vars. Requires kubectl and helm on the PATH.
 # Gitea runs with SQLite and persistent storage (k3s local-path), which suits a single node.
 
-set -euo pipefail
+set -eu
 
 NODE_IP="${1:-${NODE_IP:-}}"
 GITEA_ADMIN_PASSWORD="${2:-${GITEA_ADMIN_PASSWORD:-}}"
 
-if [[ -z "$NODE_IP" || -z "$GITEA_ADMIN_PASSWORD" ]]; then
+if [ -z "$NODE_IP" ] || [ -z "$GITEA_ADMIN_PASSWORD" ]; then
   echo "Usage: $0 [NODE_IP] [GITEA_ADMIN_PASSWORD]  (or set them as env vars)" >&2
   exit 1
 fi
-if ! [[ "$NODE_IP" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+if ! printf '%s\n' "$NODE_IP" | grep -Eq '^([0-9]{1,3}\.){3}[0-9]{1,3}$'; then
   echo "Invalid IP address: $NODE_IP" >&2
   exit 1
 fi
 
-export KUBECONFIG="${KUBECONFIG:-/etc/rancher/k3s/k3s.yaml}"
+KUBECONFIG="${KUBECONFIG:-/etc/rancher/k3s/k3s.yaml}"
+export KUBECONFIG
 GITEA_HOST="gitea.${NODE_IP}.sslip.io"
 ARGOCD_HOST="argocd.${NODE_IP}.sslip.io"
 
-log() { echo -e "\n\033[1;32m==> $*\033[0m"; }
+log() { printf '\n\033[1;32m==> %s\033[0m\n' "$*"; }
 
 kubectl get nodes >/dev/null   # fail early if the cluster is unreachable
 

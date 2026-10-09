@@ -1,6 +1,6 @@
 # Airflow 3
 
-Run:
+## Setup
 
 ```bash
 curl -sfL https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/airflow3/install-airflow3.docker.sh | sh -
