@@ -1,4 +1,4 @@
-# k3s_Rancher
+# K3s + Rancher
 
 ## Setup
 
@@ -24,3 +24,19 @@ kubectl apply --server-side -f \
 ```
 
 Add [k3s-traefik-config.yaml](k3s-traefik-config.yaml) to `/var/lib/rancher/k3s/server/manifests/k3s-traefik-config.yaml`.
+
+## Argo CD + Gitea
+
+```bash
+./install-argocd-gitea.sh <NODE_IP> <GITEA_ADMIN_PASSWORD>
+
+curl -fsSL https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/k3s-rancher/install-argocd-gitea.sh | sh -s -- <NODE_IP> <GITEA_ADMIN_PASSWORD>
+```
+
+## Harbor
+
+```bash
+./install-harbor.sh <NODE_IP> <HARBOR_ADMIN_PASSWORD>
+
+curl -fsSL https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/k3s-rancher/install-harbor.sh | sh -s -- <NODE_IP> <HARBOR_ADMIN_PASSWORD>
+```
