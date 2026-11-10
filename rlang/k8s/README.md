@@ -45,14 +45,20 @@ Create the secret RStudio reads its login from:
 kubectl create secret generic rstudio-auth --from-literal=password=<your-password>
 ```
 
-Start RStudio Server and forward it so it's reachable from outside the VM:
+Start RStudio Server and expose it on the node's host port via a `NodePort` Service:
 
 ```bash
 kubectl apply -f r-studio-pod.yml
-kubectl port-forward --address 0.0.0.0 pod/r-studio-pod 8787:8787
+kubectl apply -f r-studio-service.yml
 ```
 
-Then open http://<vm-ip>:8787 in your browser (replace `<vm-ip>` with the VM's IP/hostname) and log in as user `rstudio` with `<your-password>`.
+Then open http://<vm-ip>:30787 in your browser (replace `<vm-ip>` with the VM's IP/hostname) and log in as user `rstudio` with `<your-password>`.
+
+Alternatively, without the Service, forward it directly:
+
+```bash
+kubectl port-forward --address 0.0.0.0 pod/r-studio-pod 8787:8787
+```
 
 ### Without auth
 
