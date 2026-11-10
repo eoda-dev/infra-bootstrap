@@ -52,6 +52,13 @@ kubectl apply -f r-studio-pod.yml
 kubectl apply -f r-studio-service.yml
 ```
 
+Or apply both directly from GitHub `main`:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/rlang/k8s/r-studio-pod.yml
+kubectl apply -f https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/rlang/k8s/r-studio-service.yml
+```
+
 Then open http://<vm-ip>:30787 in your browser (replace `<vm-ip>` with the VM's IP/hostname) and log in as user `rstudio` with `<your-password>`.
 
 Alternatively, without the Service, forward it directly:
