@@ -67,6 +67,34 @@ Alternatively, without the Service, forward it directly:
 kubectl port-forward --address 0.0.0.0 pod/r-studio-pod 8787:8787
 ```
 
+### Firewall: restrict the NodePort (optional)
+
+`r-studio-service.yml` exposes RStudio on NodePort `30787` on every node, reachable from anywhere that can reach the node. To instead only expose it through an nginx reverse proxy on port `3000`:
+
+```bash
+sudo cp nftables.conf /etc/nftables.conf
+sudo nft -f /etc/nftables.conf
+
+sudo cp nginx-rstudio.conf /etc/nginx/sites-available/rstudio-3000.conf
+sudo ln -s /etc/nginx/sites-available/rstudio-3000.conf /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+Or fetch both directly from GitHub `main`:
+
+```bash
+curl -Lf https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/rlang/k8s/nftables.conf | sudo tee /etc/nftables.conf >/dev/null
+sudo nft -f /etc/nftables.conf
+
+curl -Lf https://raw.githubusercontent.com/eoda-dev/infra-bootstrap/main/rlang/k8s/nginx-rstudio.conf | sudo tee /etc/nginx/sites-available/rstudio-3000.conf >/dev/null
+sudo ln -s /etc/nginx/sites-available/rstudio-3000.conf /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+[nftables.conf](nftables.conf) drops external traffic to the NodePort range (`30000-32767`) on `eth0`, so only the host itself (nginx) can reach it. [nginx-rstudio.conf](nginx-rstudio.conf) proxies plain HTTP port `3000` to the RStudio NodePort (`127.0.0.1:30787`), including websocket upgrade headers RStudio needs.
+
+Afterwards, open http://<vm-ip>:3000 instead of the NodePort directly.
+
 ### Without auth
 
 For quick local testing, `r-studio-pod-noauth.yml` disables login instead of requiring a secret:
